@@ -53,28 +53,75 @@ void addend(node** head,int data)
     
 
 }
+node* reverse(node** head)
+{
+    node *current,*temp=NULL;
+    current=*head;
+    while(current!=NULL)
+    {
+        temp=current->prev;
+        current->prev=current->next;  //swap the next and prev pointer with each other;
+        current->next=temp;
+        current=current->prev;       //as next is swap to prev so move prev side;
+    }    
+    if(temp!=NULL)
+    {
+        *head=temp->prev;           
+    }
+    return *head;
+}
+node* addmid(node** head,int data)
+{
+    //int count=0;
+    node *temp = *head;
+    node* nn= new node();
+    nn->data=data;
+    if((*head)->data>=nn->data)
+    {
+        nn->next=*head;
+        nn->next->prev=nn;
+        nn->prev=NULL;
+        *head=nn;
+    }
+    else{
+    while(temp->next!=NULL && temp->next->data<nn->data)
+    {
+        temp=temp->next;
+    }
+    nn->next=temp->next;
+    
+    if(temp->next!=NULL)
+    {
+    nn->next->prev=nn;
+    }
+    temp->next=nn;
+    nn->prev=temp;
+    }
+    return *head;
+}
 main()
 {
     node* head=NULL;
-    addend(&head,0);
-    print(head);
-    addbeg(&head,1);
-    print(head);
-    addbeg(&head,2);
-    print(head);
-    addbeg(&head,3);
+    addend(&head,6);
     print(head);
     addbeg(&head,4);
     print(head);
-    addbeg(&head,5);
+    addbeg(&head,3);
     print(head);
-    addend(&head,6);
+    addbeg(&head,2);
+    print(head);
+    addbeg(&head,1);
+    print(head);
+    addbeg(&head,0);
     print(head);
     addend(&head,7);
     print(head);
     addend(&head,8);
-
-
-
+    print(head);
+    addend(&head,9);
+    print(head);
+    head = addmid(&head,5);
+    print(head);
+    head=reverse(&head);
     print(head);
 }
